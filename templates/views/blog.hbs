@@ -1,0 +1,21 @@
+{{# each data.posts.results}}
+<article data-ks-editable="{{#if ../user}}{{adminEditableUrl ../../user _id}}{{/if}}" class="entrance">
+	<a href="{{postUrl slug}}">
+	    <img class="entrance_img" src="{{{cloudinaryUrl featuredImage}}}">
+	</a>
+	<div class="entrance_info">
+	    <a href="author.html">
+	        <img class="avatar" src="{{{cloudinaryUrl author.avatar}}}">
+	        <p>{{author.name.first}}</p>
+	    </a>
+	    <div class="like">
+	        <svg class="icon"><use xlink:href="/images/iconset.svg#heart"/></svg>
+	        <p>215 Likes</p>
+	    </div>
+	</div>
+	<a href="{{postUrl slug}}">
+	    <h2>{{{title}}}</h2>
+	</a>
+</article>
+{{/each}}
+

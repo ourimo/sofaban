@@ -1,0 +1,29 @@
+<section class="article_header">
+    <img class="img-fullWidth" src="{{{cloudinaryUrl data.post.featuredImage}}}">
+    <div class="article_header_info">
+        <a href="author.html">
+            <img class="avatar" src="{{{cloudinaryUrl data.post.author.avatar}}}">
+            <p>{{{data.post.author.name.first}}}</p>
+        </a>
+        <div class="like">
+            <svg class="icon"><use xlink:href="/images/iconset.svg#heart"/></svg>
+            <p>15 Likes</p>
+        </div>
+    </div>
+    <h1>{{data.post.title}}</h1>
+    <p class="article_header_place">{{{categoryList data.post.categories}}}</p>
+    <p>{{{data.post.content.brief}}}</p>
+</section>
+
+<section class="article_content">
+	<img class="img-fullWidth" src="{{{cloudinaryUrl data.post.image1}}}">
+    <img class="img-fullWidth" src="{{{cloudinaryUrl data.post.image2}}}">
+    <img class="img-fullWidth" src="{{{cloudinaryUrl data.post.image3}}}">
+    <img class="img-fullWidth" src="{{{cloudinaryUrl data.post.image4}}}">
+    
+   	{{{data.post.content.extended}}}
+   	
+   	<h2>Recent action updates</h2>
+    <section class="instagramFeed" data-hashtag="{{data.post.hashtag}}"></section>
+    <div class="more">More</div>
+</section>
