@@ -132,7 +132,7 @@ $(function() {
     
     //More button show/hide content-text
     $('.more').append('<svg class="icon"><use xlink:href="/images/iconset.svg#more"/></svg>');
-    $('.more').click(function(){
+    $('#extendContent').click(function(){
         $(this).prev('.content-text').toggleClass('content--show');
         $(this).prev('.content-text').toggleClass('content--hidden');
         
@@ -145,29 +145,41 @@ $(function() {
     
     //Instagram API request
     var token = '4637254850.0ad8824.b9e53c44aafa463a8bf28efa99fe4545',
-    userid = '4781456249',
     hashtag = document.querySelector('.instagramFeed').getAttribute('data-hashtag'),
     username = 'sofahasnowings',
-    num_photos = 2;
- 
-    $.ajax({
-    	url: 'https://api.instagram.com/v1/tags/' + hashtag + '/media/recent',
-    	dataType: 'jsonp',
-    	type: 'GET',
-    	data: {access_token: token, count: num_photos},
-    	success: function(data){
-    		console.log(data);
-    		for(x in data.data){
-    		    var user = data.data[x].user.username,
-    		    loc = data.data[x].location.name,
-    		    avatar = data.data[x].user.profile_picture,
-    		    img = data.data[x].images.standard_resolution.url;
-    		    
-    			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"></article>');
-    		}
-    	},
-    	error: function(data){
-    		console.log(data);
-    	}
+    btn = document.getElementById('instaLoad'),
+    count = 2;
+    
+    function loadInstaFeed(){
+        $.ajax({
+        	url: 'https://api.instagram.com/v1/tags/' + hashtag + '/media/recent',
+        	dataType: 'jsonp',
+        	type: 'GET',
+        	data: {access_token: token, count: count},
+        	success: function(data){
+        	    var start = count - 2;
+        	    
+        		for(i = start; i < data.data.length; i++){
+        		    var dt = data.data[i],
+        		    user = dt.user.username,
+        		    loc = dt.location.name,
+        		    avatar = dt.user.profile_picture,
+        		    img = dt.images.standard_resolution.url;
+    
+        			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"></article>');
+        		}
+        	},
+        	error: function(data){
+        		console.log(data);
+        	}
+        });
+    }
+    
+    loadInstaFeed();
+    
+    $(btn).on('click', function(){
+        count += 2;
+        loadInstaFeed();
     });
+    
 });
