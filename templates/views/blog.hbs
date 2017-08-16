@@ -4,14 +4,14 @@
 	    <img class="entrance_img" src="{{{cloudinaryUrl featuredImage}}}">
 	</a>
 	<div class="entrance_info">
-	    <a href="author.html">
+	    <a href="/authors/{{{author.slug}}}">
 	        <img class="avatar" src="{{{cloudinaryUrl author.avatar}}}">
-	        <p>{{author.name.first}}</p>
+	        <p>{{author.username}}</p>
 	    </a>
-	    <div class="like">
-	        <svg class="icon"><use xlink:href="/images/iconset.svg#heart"/></svg>
-	        <p>215 Likes</p>
-	    </div>
+	    <div class="like" data-post-id="{{{id}}}" data-author-id="{{{author.id}}}" data-category-1="{{{categories.0._id}}}" data-category-2="{{{categories.1._id}}}">
+            <svg class="icon"><use xlink:href="/images/iconset.svg#heart"/></svg>
+            <p><span class="likeCount">{{{like}}}</span> Likes</p>
+        </div>
 	</div>
 	<a href="{{postUrl slug}}">
 	    <h2>{{{title}}}</h2>

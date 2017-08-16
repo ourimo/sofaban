@@ -78,17 +78,62 @@ $(function() {
     
     //Like
     /////////////////////////
-    $('.like').click(function(){
+    $('.like').on('click', function(){
+        var heart = '<use xlink:href="/images/iconset.svg#heart"/>',
+            heartFull = '<use xlink:href="/images/iconset.svg#heart-full"/>',
+            likeCount = parseInt($(this).find('.likeCount').html(), 10),
+            postId = $(this).attr('data-post-id'),
+            authorId = $(this).attr('data-author-id'),
+            category1 = $(this).attr('data-category-1'),
+            category2 = $(this).attr('data-category-2'),
+            data = {};
+            
+            data.author = authorId;
+            data.categories = [category1, category2];
+
         $(this).find('.icon').toggleClass('like--active');
         
-        var heart = '<use xlink:href="/images/iconset.svg#heart"/>';
-        var heartFull = '<use xlink:href="/images/iconset.svg#heart-full"/>';
         if ( $(this).find('.icon').hasClass('like--active') ) {
             $(this).find('.icon').html(heartFull);
+            likeCount +=1;
+            data.like = likeCount;
+            $(this).find('.likeCount').html(likeCount);
+            
+            $.ajax({
+                type: 'PUT',
+                url: 'http://sofaban-keystone-ourimo.c9users.io:8080/api/posts/'+ postId,
+                data: JSON.stringify(data),
+                dataType: "jsonp",                               
+                contentType: "application/json",
+                success: function() {
+                    console.log('Successful put');
+                },
+                error: function (){
+                    console.log('Error put');
+                }
+            });
         } else {
             $(this).find('.icon').html(heart);
+            likeCount -=1;
+            data.like = likeCount;
+            $(this).find('.likeCount').html(likeCount);
+            
+            $.ajax({
+                type: 'PUT',
+                url: 'http://sofaban-keystone-ourimo.c9users.io:8080/api/posts/'+ postId,
+                data: JSON.stringify(data),
+                dataType: "jsonp",                               
+                contentType: "application/json",
+                success: function() {
+                    console.log('Successful put');
+                },
+                error: function (){
+                    console.log('Error put');
+                }
+            });
         }
     });
+    
     
     //Author menu scroll
     if ( document.querySelector('.author_menu') == null ) {
@@ -115,8 +160,8 @@ $(function() {
         $('#recentArticles').find('.icon').removeClass('icon--active');
         $('#recentArticles').find('p').removeClass('item--active');
         
-        $('.instagramFeed').fadeIn();
-        $('.author_articles').hide();
+        $('#instagramContent').fadeIn();
+        $('#articlesContent').hide();
     });
     
     $('#recentArticles').click(function(){
@@ -126,8 +171,8 @@ $(function() {
         $('#recentAction').find('.icon').removeClass('icon--active');
         $('#recentAction').find('p').removeClass('item--active');
         
-        $('.author_articles').fadeIn();
-        $('.instagramFeed').hide();
+        $('#articlesContent').fadeIn();
+        $('#instagramContent').hide();
     });
     
     //More button show/hide content-text
@@ -145,34 +190,74 @@ $(function() {
     
     //Instagram API request
     var token = '4637254850.0ad8824.b9e53c44aafa463a8bf28efa99fe4545',
-    hashtag = document.querySelector('.instagramFeed').getAttribute('data-hashtag'),
-    username = 'sofahasnowings',
-    btn = document.getElementById('instaLoad'),
-    count = 2;
+        instagramFeed = document.querySelector('.instagramFeed'),
+        btn = document.getElementById('instaLoad'),
+        count = 2;
+    
+    if (instagramFeed){
+        var hashtag = instagramFeed.getAttribute('data-hashtag'),
+            user = instagramFeed.getAttribute('data-instagram-user');
+    }
     
     function loadInstaFeed(){
-        $.ajax({
-        	url: 'https://api.instagram.com/v1/tags/' + hashtag + '/media/recent',
-        	dataType: 'jsonp',
-        	type: 'GET',
-        	data: {access_token: token, count: count},
-        	success: function(data){
-        	    var start = count - 2;
-        	    
-        		for(i = start; i < data.data.length; i++){
-        		    var dt = data.data[i],
-        		    user = dt.user.username,
-        		    loc = dt.location.name,
-        		    avatar = dt.user.profile_picture,
-        		    img = dt.images.standard_resolution.url;
-    
-        			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"></article>');
-        		}
-        	},
-        	error: function(data){
-        		console.log(data);
-        	}
-        });
+        if (hashtag){
+            $.ajax({
+            	url: 'https://api.instagram.com/v1/tags/' + hashtag + '/media/recent',
+            	dataType: 'jsonp',
+            	type: 'GET',
+            	data: {access_token: token, count: count},
+            	success: function(data){
+            	    var start = count - 2;
+            	    
+            		for(i = start; i < data.data.length; i++){
+            		    var dt = data.data[i],
+            		    user = dt.user.username,
+            		    loc = dt.location.name,
+            		    avatar = dt.user.profile_picture,
+            		    img = dt.images.standard_resolution.url;
+        
+            			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"></article>');
+            		}
+            	},
+            	error: function(data){
+            		console.log(data);
+            	}
+            });
+        } else if(user){
+            $.ajax({
+            	url: 'https://api.instagram.com/v1/users/search',
+            	dataType: 'jsonp',
+            	type: 'GET',
+            	data: {access_token: token, q: user},
+            	success: function(data){
+            	    $.ajax({
+            			url: 'https://api.instagram.com/v1/users/' + data.data[0].id + '/media/recent',
+            			dataType: 'jsonp',
+            			type: 'GET',
+            			data: {access_token: token, count: count},
+            			success: function(data2){
+            				var start = count - 2;
+            	    
+                    		for(i = start; i < data2.data.length; i++){
+                    		    var dt = data2.data[i],
+                    		    user = dt.user.username,
+                    		    loc = dt.location.name,
+                    		    avatar = dt.user.profile_picture,
+                    		    img = dt.images.standard_resolution.url;
+                
+                    			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"></article>');
+                    		}
+                		},
+            			error: function(data2){
+            				console.log(data2);
+            			}
+            		});
+            	},
+            	error: function(data){
+            		console.log(data);
+            	}
+            });
+        }
     }
     
     loadInstaFeed();

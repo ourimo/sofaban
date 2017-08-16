@@ -1,0 +1,41 @@
+<section class="author_header">
+            <img class="avatar" src="{{{cloudinaryUrl data.author.avatar}}}">
+            <h1>{{data.author.username}}</h1>
+            <p>{{data.author.description}}</p>
+        </section>
+        
+        <section class="author_menu">
+            <div id="recentAction" class="author_menu_item">
+                <svg class="icon icon--active"><use xlink:href="/images/iconset.svg#instagram"/></svg>
+                <p class="item--active">Recent action</p>
+            </div>
+            <div id="recentArticles" class="author_menu_item">
+                <svg class="icon"><use xlink:href="/images/iconset.svg#articles"/></svg>
+                <p>Recent articles</p>
+            </div>
+        </section>
+        
+        <section id="instagramContent">
+            <div class="instagramFeed" data-instagram-user="{{data.author.instagram}}"></div>
+            <div id="instaLoad" class="more">More</div>
+        </section>
+        
+        <section id="articlesContent" class="author_articles">
+            {{# each data.posts.results}}
+            <article data-ks-editable="{{#if ../user}}{{adminEditableUrl ../../user _id}}{{/if}}" class="entrance">
+                <a href="{{postUrl slug}}">
+                    <img class="entrance_img" src="{{{cloudinaryUrl featuredImage}}}">
+                </a>
+                <div class="entrance_info">
+                    <p class="article_header_place">{{{categoryList categories}}}</p>
+                    <div class="like" data-post-id="{{{id}}}" data-author-id="{{{author.id}}}" data-category-1="{{{categories.0._id}}}" data-category-2="{{{categories.1._id}}}">
+                        <svg class="icon"><use xlink:href="/images/iconset.svg#heart"/></svg>
+                        <p><span class="likeCount">{{{like}}}</span> Likes</p>
+                    </div>
+                </div>
+                <a href="{{postUrl slug}}">
+                    <h2>{{{title}}}</h2>
+                </a>
+            </article>
+            {{/each}}
+        </section>

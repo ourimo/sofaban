@@ -27,6 +27,7 @@ Post.add({
 	},
 	categories: { type: Types.Relationship, ref: 'PostCategory', many: true },
 	hashtag: { type: Types.Text },
+	like: { type: Types.Number }
 });
 
 Post.schema.virtual('content.full').get(function () {
