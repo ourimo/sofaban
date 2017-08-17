@@ -101,7 +101,7 @@ $(function() {
             
             $.ajax({
                 type: 'PUT',
-                url: 'http://sofaban-keystone-ourimo.c9users.io:8080/api/posts/'+ postId,
+                url: 'https://intense-stream-99544.herokuapp.com/api/posts/'+ postId,
                 data: JSON.stringify(data),
                 dataType: "jsonp",                               
                 contentType: "application/json",
@@ -120,7 +120,7 @@ $(function() {
             
             $.ajax({
                 type: 'PUT',
-                url: 'http://sofaban-keystone-ourimo.c9users.io:8080/api/posts/'+ postId,
+                url: 'https://intense-stream-99544.herokuapp.com/api/posts/'+ postId,
                 data: JSON.stringify(data),
                 dataType: "jsonp",                               
                 contentType: "application/json",
