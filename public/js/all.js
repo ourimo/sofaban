@@ -192,7 +192,7 @@ $(function() {
     var token = '4637254850.0ad8824.b9e53c44aafa463a8bf28efa99fe4545',
         instagramFeed = document.querySelector('.instagramFeed'),
         btn = document.getElementById('instaLoad'),
-        count = 2;
+        count = 4;
     
     if (instagramFeed){
         var hashtag = instagramFeed.getAttribute('data-hashtag'),
@@ -207,16 +207,17 @@ $(function() {
             	type: 'GET',
             	data: {access_token: token, count: count},
             	success: function(data){
-            	    var start = count - 2;
+            	    var start = count - 4;
             	    
             		for(i = start; i < data.data.length; i++){
             		    var dt = data.data[i],
             		    user = dt.user.username,
             		    loc = dt.location.name,
             		    avatar = dt.user.profile_picture,
-            		    img = dt.images.standard_resolution.url;
+            		    img = dt.images.standard_resolution.url,
+            		    text = dt.caption.text;
         
-            			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"></article>');
+            			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"><p>'+text+'</p></article>');
             		}
             	},
             	error: function(data){
@@ -234,20 +235,34 @@ $(function() {
             			url: 'https://api.instagram.com/v1/users/' + data.data[0].id + '/media/recent',
             			dataType: 'jsonp',
             			type: 'GET',
-            			data: {access_token: token, count: count},
+            			data: {access_token: token},
+            			
             			success: function(data2){
-            				var start = count - 2;
-            	    
-                    		for(i = start; i < data2.data.length; i++){
-                    		    var dt = data2.data[i],
-                    		    user = dt.user.username,
-                    		    loc = dt.location.name,
-                    		    avatar = dt.user.profile_picture,
-                    		    img = dt.images.standard_resolution.url;
-                
-                    			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"></article>');
-                    		}
-                		},
+            			    $.ajax({
+                            	url: 'https://api.instagram.com/v1/tags/sofaban/media/recent',
+                            	dataType: 'jsonp',
+                            	type: 'GET',
+                            	data: {access_token: token, count: count},
+                            	
+                                success: function(data3){
+                    				var start = count - 4;
+                    	    
+                            		for(i = start; i < data3.data.length; i++){
+                            		    var dt = data3.data[i],
+                            		    user = dt.user.username,
+                            		    loc = dt.location.name,
+                            		    avatar = dt.user.profile_picture,
+                            		    img = dt.images.standard_resolution.url,
+                            		    text = dt.caption.text;
+                            		  
+                            			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"><p>'+text+'</p></article>');
+                            		}
+                        		},
+                    			error: function(data3){
+                    				console.log(data3);
+                    			}
+                            });
+            			},
             			error: function(data2){
             				console.log(data2);
             			}
@@ -263,7 +278,7 @@ $(function() {
     loadInstaFeed();
     
     $(btn).on('click', function(){
-        count += 2;
+        count += 4;
         loadInstaFeed();
     });
     
