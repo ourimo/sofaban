@@ -78,6 +78,7 @@ $(function() {
     
     //Like
     /////////////////////////
+    
     $('.like').on('click', function(){
         var heart = '<use xlink:href="/images/iconset.svg#heart"/>',
             heartFull = '<use xlink:href="/images/iconset.svg#heart-full"/>',
@@ -86,7 +87,8 @@ $(function() {
             authorId = $(this).attr('data-author-id'),
             category1 = $(this).attr('data-category-1'),
             category2 = $(this).attr('data-category-2'),
-            data = {};
+            data = {},
+            getUrl = window.location;
             
             data.author = authorId;
             data.categories = [category1, category2];
@@ -101,7 +103,7 @@ $(function() {
             
             $.ajax({
                 type: 'PUT',
-                url: 'https://intense-stream-99544.herokuapp.com/api/posts/'+ postId,
+                url: getUrl+'api/posts/'+ postId,
                 data: JSON.stringify(data),
                 dataType: "jsonp",                               
                 contentType: "application/json",
@@ -120,7 +122,7 @@ $(function() {
             
             $.ajax({
                 type: 'PUT',
-                url: 'https://intense-stream-99544.herokuapp.com/api/posts/'+ postId,
+                url: getUrl+'api/posts/'+ postId,
                 data: JSON.stringify(data),
                 dataType: "jsonp",                               
                 contentType: "application/json",
