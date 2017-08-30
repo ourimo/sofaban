@@ -1,5 +1,6 @@
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
+var ig = require('instagram-node').instagram();
 
 /**
  * Post Model
@@ -31,29 +32,36 @@ Post.add({
 	igcontent: { type: String }
 });
 
-Post.schema.virtual('content.full').get(function () {
-	return this.content.extended || this.content.brief;
+
+//Get instagram post data
+ig.use({ access_token: '4637254850.0ad8824.b9e53c44aafa463a8bf28efa99fe4545' });
+
+
+Post.schema.pre('save', function(next){
+	var hashtag = this.hashtag;
+
+	ig.tag_media_recent(hashtag, function(err, medias, pagination, remaining, limit) {
+		if(err){
+			console.log(err);
+		} else {
+			Post.schema.pre('save', function (next) {
+				var stringMedias = JSON.stringify(medias);
+				if(this.igcontent === '') {
+					this.igcontent = stringMedias;
+				}
+				
+				next();
+			});
+		}
+	});
+	
+	next();
 });
 
-// Post.schema.pre('save', function(next) {
-// // If you only want to run this function if this is a brand new document, include this function.
-// // If not, you can remove it and the encapsulating if statement from the next function.
-//   this.igcontent = 'new content';
-//   next();
-// });
-Post.schema.post('save', function () {
-  //if (this.wasNew) {
-      // Run a function here which creates some data for a field you want to be able to see in the adminUI
-		// setTimeout(function() {
-			this.igcontent = 'json content data';
-			//console.log('its saved');
-			
-			this.save(function (err) {
-				if (err) console.log(err);
-			});
-		// }, 10);
-  //}
-});
+
+
+
+
 
 Post.defaultColumns = 'title, state|20%, author|20%, publishedDate|20%';
 Post.register();

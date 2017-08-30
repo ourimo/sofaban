@@ -27,8 +27,9 @@ SVGElement},dom:function(a){return a.nodeType||g.svg(a)},str:function(a){return"
 c},attribute:function(a,b,c){return a.setAttribute(b,c)},object:function(a,b,c){return a[b]=c},transform:function(a,b,c,d,e){d[e]||(d[e]=[]);d[e].push(b+"("+c+")")}},p=[],y=0,ia=function(){function a(){y=requestAnimationFrame(b)}function b(b){var c=p.length;if(c){for(var e=0;e<c;)p[e]&&p[e].tick(b),e++;a()}else cancelAnimationFrame(y),y=0}return a}();m.version="2.0.1";m.speed=1;m.running=p;m.remove=function(a){a=L(a);for(var b=p.length-1;0<=b;b--)for(var c=p[b],d=c.animations,e=d.length-1;0<=e;e--)E(a,
 d[e].animatable.target)&&(d.splice(e,1),d.length||c.pause())};m.getValue=I;m.path=function(a,b){var c=g.str(a)?u(a)[0]:a,d=b||100;return function(a){return{el:c,property:a,totalLength:c.getTotalLength()*(d/100)}}};m.setDashoffset=function(a){var b=a.getTotalLength();a.setAttribute("stroke-dasharray",b);return b};m.bezier=x;m.easings=M;m.timeline=function(a){var b=m(a);b.duration=0;b.children=[];b.add=function(a){v(a).forEach(function(a){var c=a.offset,d=b.duration;a.autoplay=!1;a.offset=g.und(c)?
 d:J(c,d);a=m(a);a.duration>d&&(b.duration=a.duration);b.children.push(a)});return b};return b};m.random=function(a,b){return Math.floor(Math.random()*(b-a+1))+a};return m});
+
+
 $(function() {
-    
     //Navigation
     ////////////////////////
     
@@ -136,6 +137,8 @@ $(function() {
         }
     });
     
+    //Athor page
+    //////////////////////////////
     
     //Author menu scroll
     if ( document.querySelector('.author_menu') == null ) {
@@ -206,39 +209,39 @@ $(function() {
     
     function loadInstaFeed(){
         //For posts
-        if (hashtag){
-            $.ajax({
-            	url: 'https://api.instagram.com/v1/tags/' + hashtag + '/media/recent',
-            	dataType: 'jsonp',
-            	type: 'GET',
-            	data: {access_token: token, count: count},
-            	success: function(data){
-            	    var start = count - 4;
+        // if (hashtag){
+        //     $.ajax({
+        //     	url: 'https://api.instagram.com/v1/tags/' + hashtag + '/media/recent',
+        //     	dataType: 'jsonp',
+        //     	type: 'GET',
+        //     	data: {access_token: token, count: count},
+        //     	success: function(data){
+        //     	    var start = count - 4;
             	    
-            	    if(start >= data.data.length){
-    				    console.log('no more posts');
-    				    btn.style.display = 'none';
-    				} else {
-                		for(i = start; i < data.data.length; i++){
-                		    var dt = data.data[i],
-                		    user = dt.user.username,
-                		    loc = dt.location.name,
-                		    avatar = dt.user.profile_picture,
-                		    img = dt.images.standard_resolution.url,
-                		    text = dt.caption.text;
+        //     	    if(start >= data.data.length){
+    				//     console.log('no more posts');
+    				//     btn.style.display = 'none';
+    				// } else {
+        //         		for(i = start; i < data.data.length; i++){
+        //         		    var dt = data.data[i],
+        //         		    user = dt.user.username,
+        //         		    loc = dt.location.name,
+        //         		    avatar = dt.user.profile_picture,
+        //         		    img = dt.images.standard_resolution.url,
+        //         		    text = dt.caption.text;
             
-                			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"><p>'+text+'</p></article>');
-                		}
-    				}
-            	},
-            	error: function(data){
-            		console.log(data);
-            	}
-            });
-        } 
+        //         			$('.instagramFeed').append('<article><header><img src="'+avatar+'"><div><p>'+user+'</p><p>'+loc+'</p></div></header><img src="'+img+'"><p>'+text+'</p></article>');
+        //         		}
+    				// }
+        //     	},
+        //     	error: function(data){
+        //     		console.log(data);
+        //     	}
+        //     });
+        // } 
         
         //For user
-        else if(user){
+        if(user){
             $.ajax({
             	url: 'https://api.instagram.com/v1/users/search',
             	dataType: 'jsonp',
@@ -323,4 +326,30 @@ $(function() {
             }
         }, 2500);
     }
+    
+    
+    
+    //Display instagram post data
+    ////////////////////////////////////////
+    var igContent = document.getElementById('igContent').getAttribute('data-ig');
+    var parsedIgContent = JSON.parse(igContent); 
+    
+    if(hashtag){
+        parsedIgContent.forEach(function(e){
+            $('.instagramFeed').append(`
+            <article>
+                <header>
+                    <img src="${e.user.profile_picture}">
+                    <div>
+                        <p>${e.user.username}</p>
+                        <p>${e.location.name}</p>
+                    </div>
+                </header>
+                <img src="${e.images.standard_resolution.url}">
+                <p>${e.caption.text}</p>
+            </article>
+            `);
+        });
+    }
+    
 });
