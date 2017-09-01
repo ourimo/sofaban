@@ -38,9 +38,9 @@ ig.use({ access_token: '4637254850.0ad8824.b9e53c44aafa463a8bf28efa99fe4545' });
 
 
 Post.schema.pre('save', function(next){
-	var hashtag = this.hashtag;
+	//var hashtag = this.hashtag;
 
-	ig.tag_media_recent(hashtag, function(err, medias, pagination, remaining, limit) {
+	ig.tag_media_recent(this.hashtag, function(err, medias, pagination, remaining, limit) {
 		if(err){
 			console.log(err);
 		} else {
