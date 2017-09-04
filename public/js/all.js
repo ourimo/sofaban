@@ -141,15 +141,15 @@ $(function() {
     //////////////////////////////
     
     //Author menu scroll
-    if ( document.querySelector('.author_menu') == null ) {
-        console.log('null author');
-    } else {
-        window.addEventListener( 'scroll', function(){
-            var authorMenuTop = document.querySelector('.author_menu').offsetTop;
-            var scrolledFromTop = window.scrollY;
+    var authorMenu = document.querySelector('.author_menu');
     
-            if ( authorMenuTop < scrolledFromTop ){
-                //console.log('its on');
+    if ( authorMenu ) {
+        var authorMenuTop = document.querySelector('.author_menu').offsetTop;
+        
+        document.addEventListener( 'scroll', function(){
+            var scrolledFromTop = window.scrollY;
+
+            if ( scrolledFromTop >= authorMenuTop ){
                 $('.author_menu').addClass('author_menu--scrolled')
             } else {
                 $('.author_menu').removeClass('author_menu--scrolled')
