@@ -152,25 +152,27 @@
         margin: 10px;
         border: 1px solid $l-grey;
     }
-}
-
-.menu-mobile_dropdown_social {
-    background-color: transparent;
-    border: none;
-    display: flex;
-    justify-content: space-between;
-    padding: 0;
-    width: calc(100% - 20px);
-
-    &>a {
-        background-color: white;
-        border-radius: 50%;
-        width: 22px;
-        height: 22px;
-        border: 1px solid $l-grey;
-        padding: 6px;
+    
+    .menu-mobile_dropdown_social {
+        background-color: transparent;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        padding: 0;
+        width: calc(100% - 20px);
+    
+        &>a {
+            background-color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            border: 1px solid $l-grey;
+            padding: 6px;
+        }
     }
 }
+
+
 
 
 //LOGO
