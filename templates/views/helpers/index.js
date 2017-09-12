@@ -325,6 +325,14 @@ module.exports = function () {
 	_helpers.underscoreFormat = function (obj, underscoreMethod) {
 		return obj._[underscoreMethod].format();
 	};
+	
+	//Description escape from <p>
+	_helpers.escapeParagraph = function (content) {
+		var escaped = content.replace(/<\/?p[^>]*>/g, "");
+		return escaped;
+	};
+
+
 
 	return _helpers;
 };

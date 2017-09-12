@@ -4,11 +4,47 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Best ideas for traveling | Sofaban</title>
-		<meta name="description" content="Ideas for active traveling and extreme activities. Posts about unique places.">
-  		<meta name="keywords" content="Traveling, ideas, blog, best">
-  		<meta name="author" content="Aurimas Paliukaitis">
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<meta name="author" content="Aurimas Paliukaitis">
+		
+		{{#if data.post}}
+		    {{#if data.post.meta.title}}
+		        <title>{{data.post.meta.title}} | Sofaban</title>
+		        <meta property="og:title" content="{{data.post.meta.title}}">
+		        <meta name="twitter:title" content="{{data.post.meta.title}}">
+		    {{else}}
+		        <title>{{data.post.title}} | Sofaban</title>
+		        <meta property="og:title" content="{{data.post.title}}">
+		        <meta name="twitter:title" content="{{data.post.title}}">
+		    {{/if}}
+		    {{#if data.post.meta.description}}
+		        <meta name="description" content="{{data.post.meta.description}}">
+		        <meta property="og:description" content="{{data.post.meta.description}}">
+		        <meta name="twitter:description" content="{{data.post.meta.description}}">
+		    {{else}}
+		        <meta name="description" content="{{escapeParagraph data.post.content.brief}}">
+		        <meta property="og:description" content="{{escapeParagraph data.post.content.brief}}">
+		        <meta name="twitter:description" content="{{escapeParagraph data.post.content.brief}}">
+		    {{/if}}
+		    <meta property="og:type" content="article">
+		    <meta name="twitter:card" content="summary_large_image">
+		    <meta property="og:image" content="{{data.post.featuredImage.url}}">
+		    <meta name="twitter:image:src" content="{{data.post.featuredImage.url}}">
+		    <meta property="og:url" content="{{data.post.fullPostUrl}}">
+		    <meta name="twitter:url" content="{{data.post.fullPostUrl}}">
+		    <meta property="article:published_time" content="{{data.post.publishedDate}}">
+		    {{# each data.post.categories}}
+		        <meta property="article:tag" content="{{name}}">
+		    {{/each}}
+		    <meta name="keywords" content="{{# each data.post.categories}}{{name}}, {{/each}}">    
+		{{else}}
+		    <title>Best ideas for traveling | Sofaban</title>
+			<meta name="description" content="Ideas for active traveling and extreme activities. Posts about unique places."> 
+		    <meta property="og:image" content="{{baseUrl}}/images/new_logo.jpg">
+		    <meta name="twitter:image:src" content="{{baseUrl}}/images/new_logo.jpg">
+		    <meta name="keywords" content="Travel, ideas, blog, best, most, action">
+		{{/if}}    
+		
+		<link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
 		<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon.png">
 		<link href="/styles/all.css" rel="stylesheet">
 		<link href="/styles/flag-icon-css-master/css/flag-icon.min.css" rel="stylesheet">

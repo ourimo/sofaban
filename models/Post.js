@@ -26,6 +26,10 @@ Post.add({
 		brief: { type: Types.Html, wysiwyg: true, height: 150 },
 		extended: { type: Types.Html, wysiwyg: true, height: 400 },
 	},
+	meta: {
+		title: { type: String },
+		description: { type: String }
+	},
 	categories: { type: Types.Relationship, ref: 'PostCategory', many: true },
 	hashtag: { type: Types.Text },
 	like: { type: Types.Number },
