@@ -1,6 +1,6 @@
 // Post
-var igFeed = document.querySelector('.instagramFeed');
-var hashtag = igFeed.getAttribute('data-hashtag');
+var igPostContainer = document.getElementById('igForPost');
+var hashtag = igPostContainer.getAttribute('data-hashtag');
 
 var showIgOnPost = function(){
     fetch(`${window.location.origin}/api/posts/${postId}`)
@@ -28,10 +28,16 @@ var showIgOnPost = function(){
             `;
         });
         
-        igFeed.innerHTML = igPosts;
+        igPostContainer.innerHTML = igPosts;
     });
+};
+
+var showNoIgOnPost = function(){
+    igPostContainer.innerHTML = '<div class="emptyContainerMessage"><svg class="icon"><use xlink:href="/images/iconset.svg#empty-scroll"/></svg> No recent action</div>';    
 };
 
 if(hashtag){
     showIgOnPost();
+} else {
+    showNoIgOnPost();
 }
