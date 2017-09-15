@@ -179,7 +179,7 @@ $(function() {
             user = instagramFeed.getAttribute('data-instagram-user');
     }
     
-    //For author
+    //Author
     function loadInstaFeed(){
         if(user){
             $.ajax({
@@ -266,27 +266,4 @@ $(function() {
             }
         }, 2500);
     }
-    
-    //Post
-    var igContent = document.getElementById('igContent').getAttribute('data-ig');
-    var parsedIgContent = JSON.parse(igContent); 
-    
-    if(hashtag){
-        parsedIgContent.forEach(function(e){
-            $('.instagramFeed').append(`
-            <article>
-                <header>
-                    <img src="${e.user.profile_picture}">
-                    <div>
-                        <p>${e.user.username}</p>
-                        <p>${e.location.name}</p>
-                    </div>
-                </header>
-                <img src="${e.images.standard_resolution.url}">
-                <p>${e.caption.text}</p>
-            </article>
-            `);
-        });
-    }
-    
 });

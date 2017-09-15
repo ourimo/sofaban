@@ -25,8 +25,13 @@
    	{{{data.post.content.extended}}}
    	{{!--</div>--}}
    	{{!--<div id="extendContent" class="more">More</div>--}}
-   	<div id="igContent" data-ig='{{{data.post.igcontent}}}'></p>
+   	<div id="igContent"></p>
    	<h2>Recent action updates</h2>
     <section class="instagramFeed" data-hashtag="{{data.post.hashtag}}"></section>
     {{!--<div id="instaLoad" class="more">More</div>--}}
 </section>
+
+<script>
+    var postId = '{{data.post.id}}';
+</script>
+<script src="/js/igForPost.js"></script>

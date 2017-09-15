@@ -21,7 +21,8 @@ exports = module.exports = function (req, res) {
 			state: 'published',
 			slug: locals.filters.post,
 		}).populate('author categories');
-
+		
+		
 		q.exec(function (err, result) {
 			locals.data.post = result;
 			next(err);
@@ -40,6 +41,7 @@ exports = module.exports = function (req, res) {
 		});
 
 	});
+	
 
 	// Render the view
 	view.render('post');
