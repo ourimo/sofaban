@@ -10,7 +10,6 @@ var showIgOnPost = function(){
         const igLink = 'https://instagram.com/';
         let igPosts = '';
         
-        
         parsedData.forEach(function(e){
             igPosts +=`
                 <article>
