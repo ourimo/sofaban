@@ -1,4 +1,3 @@
-// Post
 var igPostContainer = document.getElementById('igForPost');
 var hashtag = igPostContainer.getAttribute('data-hashtag');
 
