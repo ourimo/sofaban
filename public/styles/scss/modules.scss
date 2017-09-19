@@ -129,6 +129,9 @@
         &:hover {
             text-decoration: underline;
         }
+        a {
+            color: $black;
+        }
     }
 }
 
@@ -151,6 +154,10 @@
         width: 130px;
         margin: 10px;
         border: 1px solid $l-grey;
+        
+        >a {
+            color: $black;
+        }
     }
     
     .menu-mobile_dropdown_social {
@@ -365,6 +372,7 @@
             a {
                 display: flex;
                 align-items: center;
+                color: $black;
             }
             a:hover {
                 text-decoration: underline;
