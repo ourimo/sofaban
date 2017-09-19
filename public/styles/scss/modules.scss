@@ -550,6 +550,9 @@
 .article_header_place {
     margin: 0;
     
+    a {
+        color: $black;
+    }
     a+a {
         border-left: 1px solid $black;
         margin-left: 10px;
